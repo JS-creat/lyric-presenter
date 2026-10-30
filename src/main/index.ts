@@ -1,3 +1,4 @@
+import { registerOutputIpc } from './outputWindow'
 import { app, shell, BrowserWindow, ipcMain } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
@@ -51,6 +52,8 @@ app.whenReady().then(() => {
 
   // IPC test
   ipcMain.on('ping', () => console.log('pong'))
+
+  registerOutputIpc()
 
   createWindow()
 
