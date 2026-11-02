@@ -1,7 +1,6 @@
 import { contextBridge, ipcRenderer } from 'electron'
 import { electronAPI } from '@electron-toolkit/preload'
 
-// Custom APIs for renderer
 const api = {
   openOutput: (): Promise<void> => ipcRenderer.invoke('output:open'),
   closeOutput: (): Promise<void> => ipcRenderer.invoke('output:close'),
@@ -11,12 +10,15 @@ const api = {
     const handler = (_: unknown, state: ProjectionState): void => cb(state)
     ipcRenderer.on('state:changed', handler)
     return () => ipcRenderer.removeListener('state:changed', handler)
+  },
+  songs: {
+    list: (): Promise<SongData[]> => ipcRenderer.invoke('songs:list'),
+    create: (song: SongData): Promise<void> => ipcRenderer.invoke('songs:create', song),
+    update: (song: SongData): Promise<void> => ipcRenderer.invoke('songs:update', song),
+    remove: (id: string): Promise<void> => ipcRenderer.invoke('songs:delete', id)
   }
 }
 
-// Use `contextBridge` APIs to expose Electron APIs to
-// renderer only if context isolation is enabled, otherwise
-// just add to the DOM global.
 if (process.contextIsolated) {
   try {
     contextBridge.exposeInMainWorld('electron', electronAPI)

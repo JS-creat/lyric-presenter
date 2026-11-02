@@ -32,6 +32,10 @@ function Control(): React.JSX.Element {
     }
   }
 
+  useEffect(() => {
+    usePresenter.getState().loadSongs()
+  }, [])
+
   // Sincroniza con la ventana de proyección cada vez que cambia el estado
   useEffect(() => {
     window.api.updateState(buildProjection(usePresenter.getState()))
@@ -97,11 +101,10 @@ function Control(): React.JSX.Element {
           <button
             key={x.id}
             onClick={() => s.selectSong(x.id)}
-            className={`w-full text-left p-2 rounded ${
-              x.id === s.currentSongId
+            className={`w-full text-left p-2 rounded ${x.id === s.currentSongId
                 ? 'bg-blue-600'
                 : 'bg-neutral-800 hover:bg-neutral-700'
-            }`}
+              }`}
           >
             {x.title}
           </button>
@@ -141,11 +144,10 @@ function Control(): React.JSX.Element {
             <button
               key={i}
               onClick={() => s.setStanza(i)}
-              className={`w-full text-left p-3 rounded border ${
-                active
+              className={`w-full text-left p-3 rounded border ${active
                   ? 'border-green-500 bg-green-900/40'
                   : 'border-neutral-700 bg-neutral-800'
-              }`}
+                }`}
             >
               <div className="text-xs uppercase text-neutral-400 mb-1">
                 {st.label}
@@ -171,18 +173,16 @@ function Control(): React.JSX.Element {
         <div className="flex gap-2">
           <button
             onClick={s.toggleBlackout}
-            className={`flex-1 py-2 rounded ${
-              s.blackout ? 'bg-red-600' : 'bg-neutral-700'
-            }`}
+            className={`flex-1 py-2 rounded ${s.blackout ? 'bg-red-600' : 'bg-neutral-700'
+              }`}
           >
             Blackout (B)
           </button>
 
           <button
             onClick={s.toggleClear}
-            className={`flex-1 py-2 rounded ${
-              s.clear ? 'bg-yellow-600' : 'bg-neutral-700'
-            }`}
+            className={`flex-1 py-2 rounded ${s.clear ? 'bg-yellow-600' : 'bg-neutral-700'
+              }`}
           >
             Limpiar (Esc)
           </button>
@@ -226,9 +226,8 @@ function Control(): React.JSX.Element {
             <button
               key={a}
               onClick={() => s.setAlign(a)}
-              className={`flex-1 py-1 rounded ${
-                s.align === a ? 'bg-blue-600' : 'bg-neutral-700'
-              }`}
+              className={`flex-1 py-1 rounded ${s.align === a ? 'bg-blue-600' : 'bg-neutral-700'
+                }`}
             >
               {a === 'left' ? 'Izq' : a === 'center' ? 'Centro' : 'Der'}
             </button>
