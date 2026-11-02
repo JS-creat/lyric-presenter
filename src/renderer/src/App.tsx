@@ -4,6 +4,7 @@ import { Slide } from './components/Slide'
 import { usePresenter, getCurrentSong, buildProjection } from './store'
 import { SongEditor } from './components/SongEditor'
 import { Stanza } from './lib/songs'
+import { ThemePanel } from './components/ThemePanel'
 
 function Control(): React.JSX.Element {
   const s = usePresenter()
@@ -233,6 +234,8 @@ function Control(): React.JSX.Element {
             </button>
           ))}
         </div>
+
+        <ThemePanel />
 
         {/* Ventana de proyección */}
         <div className="flex gap-2">

@@ -1,6 +1,20 @@
 import { ElectronAPI } from '@electron-toolkit/preload'
 
 declare global {
+  interface Theme {
+    id: string
+    name: string
+    bgType: 'solid' | 'gradient'
+    bg1: string
+    bg2: string
+    gradientAngle: number
+    textColor: string
+    fontFamily: string
+    bold: boolean
+    uppercase: boolean
+    shadow: boolean
+  }
+
   interface ProjectionState {
     lines: string[]
     label: string
@@ -8,6 +22,7 @@ declare global {
     clear: boolean
     fontSize: number
     align: 'left' | 'center' | 'right'
+    theme: Theme
   }
 
   interface StanzaData {
