@@ -1,22 +1,40 @@
-import { themeBackground } from '../lib/themes'
+import { themeBackground, bgUrl } from '../lib/themes'
 
 export function Slide({ state }: { state: ProjectionState | null }): React.JSX.Element {
   if (!state) return <div className="h-full w-full bg-black" />
 
   const t = state.theme
   const visible = !state.blackout && !state.clear
+  const showImage = !state.blackout && t.bgType === 'image' && !!t.bgImage
 
   return (
     <div
-      className="h-full w-full flex items-center justify-center overflow-hidden"
+      className="relative h-full w-full flex items-center justify-center overflow-hidden"
       style={{
         containerType: 'size',
         background: state.blackout ? '#000000' : themeBackground(t)
       }}
     >
+      {showImage && (
+        <>
+          <div
+            className="absolute inset-0"
+            style={{
+              backgroundImage: `url("${bgUrl(t.bgImage)}")`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center'
+            }}
+          />
+          <div
+            className="absolute inset-0"
+            style={{ background: `rgba(0,0,0,${(t.bgDim ?? 0) / 100})` }}
+          />
+        </>
+      )}
+
       {visible && (
         <div
-          className="w-full leading-tight"
+          className="relative w-full leading-tight"
           style={{
             fontSize: `${state.fontSize}cqh`,
             textAlign: state.align,

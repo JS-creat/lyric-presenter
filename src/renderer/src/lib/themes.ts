@@ -4,8 +4,10 @@ export const fonts = [
   { label: 'Impacto', css: "Impact, 'Arial Black', sans-serif" }
 ]
 
+const make = (t: Omit<Theme, 'bgImage' | 'bgDim'>): Theme => ({ ...t, bgImage: '', bgDim: 35 })
+
 export const themePresets: Theme[] = [
-  {
+  make({
     id: 'clasico',
     name: 'Clásico',
     bgType: 'solid',
@@ -17,8 +19,8 @@ export const themePresets: Theme[] = [
     bold: true,
     uppercase: false,
     shadow: false
-  },
-  {
+  }),
+  make({
     id: 'azul-noche',
     name: 'Azul noche',
     bgType: 'gradient',
@@ -30,8 +32,8 @@ export const themePresets: Theme[] = [
     bold: true,
     uppercase: false,
     shadow: true
-  },
-  {
+  }),
+  make({
     id: 'atardecer',
     name: 'Atardecer',
     bgType: 'gradient',
@@ -43,8 +45,8 @@ export const themePresets: Theme[] = [
     bold: true,
     uppercase: false,
     shadow: true
-  },
-  {
+  }),
+  make({
     id: 'bosque',
     name: 'Bosque',
     bgType: 'gradient',
@@ -56,8 +58,8 @@ export const themePresets: Theme[] = [
     bold: true,
     uppercase: false,
     shadow: true
-  },
-  {
+  }),
+  make({
     id: 'pergamino',
     name: 'Pergamino',
     bgType: 'solid',
@@ -69,8 +71,8 @@ export const themePresets: Theme[] = [
     bold: false,
     uppercase: false,
     shadow: false
-  },
-  {
+  }),
+  make({
     id: 'contraste',
     name: 'Alto contraste',
     bgType: 'solid',
@@ -82,7 +84,7 @@ export const themePresets: Theme[] = [
     bold: false,
     uppercase: true,
     shadow: false
-  }
+  })
 ]
 
 export function themeBackground(t: Theme): string {
@@ -90,3 +92,5 @@ export function themeBackground(t: Theme): string {
     ? `linear-gradient(${t.gradientAngle}deg, ${t.bg1}, ${t.bg2})`
     : t.bg1
 }
+
+export const bgUrl = (name: string): string => `lyric-media://bg/${name}`

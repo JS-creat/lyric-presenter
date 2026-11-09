@@ -1,15 +1,20 @@
 import { registerOutputIpc } from './outputWindow'
-import { app, shell, BrowserWindow, ipcMain } from 'electron'
+import { app, shell, BrowserWindow } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 import { initDb, closeDb, registerDbIpc } from './db'
+import { registerMediaScheme, registerMediaProtocol, registerMediaIpc } from './media'
+
+registerMediaScheme()
 
 function createWindow(): void {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    width: 900,
-    height: 670,
+    width: 1280,
+    height: 800,
+    minWidth: 1100,
+    minHeight: 700,
     show: false,
     autoHideMenuBar: true,
     ...(process.platform === 'linux' ? { icon } : {}),
@@ -50,6 +55,8 @@ app.whenReady().then(() => {
   initDb()
   registerDbIpc()
   registerOutputIpc()
+  registerMediaProtocol()
+  registerMediaIpc()
 
   createWindow()
 

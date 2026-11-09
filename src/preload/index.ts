@@ -2,7 +2,7 @@ import { contextBridge, ipcRenderer } from 'electron'
 import { electronAPI } from '@electron-toolkit/preload'
 
 const api = {
-  openOutput: (): Promise<void> => ipcRenderer.invoke('output:open'),
+  openOutput: (displayId?: number): Promise<void> => ipcRenderer.invoke('output:open', displayId),
   closeOutput: (): Promise<void> => ipcRenderer.invoke('output:close'),
   updateState: (state: ProjectionState): void => ipcRenderer.send('state:update', state),
   getState: (): Promise<ProjectionState | null> => ipcRenderer.invoke('state:get'),
@@ -16,7 +16,16 @@ const api = {
     create: (song: SongData): Promise<void> => ipcRenderer.invoke('songs:create', song),
     update: (song: SongData): Promise<void> => ipcRenderer.invoke('songs:update', song),
     remove: (id: string): Promise<void> => ipcRenderer.invoke('songs:delete', id)
+  },
+  backgrounds: {
+    list: (): Promise<string[]> => ipcRenderer.invoke('backgrounds:list'),
+    add: (): Promise<string[]> => ipcRenderer.invoke('backgrounds:add'),
+    remove: (name: string): Promise<void> => ipcRenderer.invoke('backgrounds:remove', name)
+  },
+  displays: {
+    list: (): Promise<DisplayInfo[]> => ipcRenderer.invoke('displays:list')
   }
+
 }
 
 if (process.contextIsolated) {

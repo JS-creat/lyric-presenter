@@ -29,6 +29,7 @@ interface PresenterState {
   setTheme: (patch: Partial<Theme>) => void
   addSong: (title: string, stanzas: Stanza[]) => string
   updateSong: (id: string, title: string, stanzas: Stanza[]) => void
+  importSongs: (items: { title: string; stanzas: Stanza[] }[]) => void
   deleteSong: (id: string) => void
 }
 
@@ -93,12 +94,21 @@ export const usePresenter = create<PresenterState>()(
           ...(s.currentSongId === id ? { currentSongId: null, stanzaIndex: 0, clear: true } : {})
         }))
         window.api.songs.remove(id)
+      },
+
+      importSongs: (items) => {
+        items.forEach((item) => get().addSong(item.title, item.stanzas))
       }
     }),
     {
       name: 'lyric-presenter-settings',
       // Solo se recuerdan los ajustes de apariencia; las canciones viven en SQLite
-      partialize: (s) => ({ theme: s.theme, fontSize: s.fontSize, align: s.align })
+      partialize: (s) => ({ theme: s.theme, fontSize: s.fontSize, align: s.align }),
+      // Completa temas guardados con versiones anteriores que no tenían campos nuevos
+      merge: (persisted, current) => {
+        const saved = (persisted ?? {}) as Partial<PresenterState>
+        return { ...current, ...saved, theme: { ...current.theme, ...saved.theme } }
+      }
     }
   )
 )

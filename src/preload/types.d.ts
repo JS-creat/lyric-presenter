@@ -4,10 +4,12 @@ declare global {
   interface Theme {
     id: string
     name: string
-    bgType: 'solid' | 'gradient'
+    bgType: 'solid' | 'gradient' | 'image'
     bg1: string
     bg2: string
     gradientAngle: number
+    bgImage: string
+    bgDim: number
     textColor: string
     fontFamily: string
     bold: boolean
@@ -24,6 +26,13 @@ declare global {
     align: 'left' | 'center' | 'right'
     theme: Theme
   }
+  interface DisplayInfo {
+    id: number
+    label: string
+    width: number
+    height: number
+    primary: boolean
+  }
 
   interface StanzaData {
     label: string
@@ -37,7 +46,7 @@ declare global {
   }
 
   interface Api {
-    openOutput(): Promise<void>
+    openOutput(displayId?: number): Promise<void>
     closeOutput(): Promise<void>
     updateState(state: ProjectionState): void
     getState(): Promise<ProjectionState | null>
@@ -47,6 +56,14 @@ declare global {
       create(song: SongData): Promise<void>
       update(song: SongData): Promise<void>
       remove(id: string): Promise<void>
+    }
+    backgrounds: {
+      list(): Promise<string[]>
+      add(): Promise<string[]>
+      remove(name: string): Promise<void>
+    }
+    displays: {
+      list(): Promise<DisplayInfo[]>
     }
   }
 

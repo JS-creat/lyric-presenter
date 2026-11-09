@@ -3,35 +3,53 @@ import { join } from 'path'
 import { is } from '@electron-toolkit/utils'
 
 let outputWindow: BrowserWindow | null = null
+let outputDisplayId: number | null = null
 let lastState: ProjectionState | null = null
 
-interface ProjectionState {
-  text: string
+function listDisplays(): DisplayInfo[] {
+  const primaryId = screen.getPrimaryDisplay().id
+  return screen.getAllDisplays().map((d, i) => ({
+    id: d.id,
+    label: `${d.label || `Pantalla ${i + 1}`} · ${d.bounds.width}×${d.bounds.height}${
+      d.id === primaryId ? ' · principal' : ''
+    }`,
+    width: d.bounds.width,
+    height: d.bounds.height,
+    primary: d.id === primaryId
+  }))
 }
 
-// Prefiere un monitor externo (proyector) si solo hay uno se usa el principal
-function pickDisplay(): { display: Electron.Display; isExternal: boolean } {
-  const primary = screen.getPrimaryDisplay()
-  const external = screen.getAllDisplays().find((d) => d.id !== primary.id)
-  return { display: external ?? primary, isExternal: !!external }
-}
+function openOutput(control: BrowserWindow | null, displayId?: number): void {
+  const displays = screen.getAllDisplays()
+  const controlDisplay = control
+    ? screen.getDisplayMatching(control.getBounds())
+    : screen.getPrimaryDisplay()
 
-function openOutput(): void {
+  // Elegida a mano, o la primera que no sea donde está el panel de control
+  const target =
+    displays.find((d) => d.id === displayId) ??
+    displays.find((d) => d.id !== controlDisplay.id) ??
+    controlDisplay
+
   if (outputWindow && !outputWindow.isDestroyed()) {
-    outputWindow.focus()
-    return
+    if (outputDisplayId === target.id) {
+      outputWindow.focus()
+      return
+    }
+    outputWindow.destroy() // se vuelve a crear en la otra pantalla
   }
 
-  const { display, isExternal } = pickDisplay()
-  const { x, y, width, height } = display.bounds
+  const external = target.id !== controlDisplay.id
+  const { x, y, width, height } = target.bounds
+  outputDisplayId = target.id
 
-  outputWindow = new BrowserWindow({
-    x,
-    y,
-    width: isExternal ? width : 960,
-    height: isExternal ? height : 540,
-    frame: !isExternal,
-    fullscreen: isExternal,
+  const win = new BrowserWindow({
+    x: external ? x : x + 80,
+    y: external ? y : y + 80,
+    width: external ? width : 960,
+    height: external ? height : 540,
+    frame: !external,
+    fullscreen: external,
     backgroundColor: '#000000',
     show: false,
     autoHideMenuBar: true,
@@ -40,22 +58,26 @@ function openOutput(): void {
       sandbox: false
     }
   })
+  outputWindow = win
 
-  outputWindow.on('ready-to-show', () => outputWindow?.show())
-  outputWindow.on('closed', () => {
-    outputWindow = null
+  win.on('ready-to-show', () => win.show())
+  win.on('closed', () => {
+    if (outputWindow === win) outputWindow = null
   })
 
   if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
-    outputWindow.loadURL(`${process.env['ELECTRON_RENDERER_URL']}#/output`)
+    win.loadURL(`${process.env['ELECTRON_RENDERER_URL']}#/output`)
   } else {
-    outputWindow.loadFile(join(__dirname, '../renderer/index.html'), { hash: '/output' })
+    win.loadFile(join(__dirname, '../renderer/index.html'), { hash: '/output' })
   }
 }
 
 export function registerOutputIpc(): void {
-  ipcMain.handle('output:open', () => openOutput())
+  ipcMain.handle('output:open', (event, displayId?: number) =>
+    openOutput(BrowserWindow.fromWebContents(event.sender), displayId)
+  )
   ipcMain.handle('output:close', () => outputWindow?.close())
+  ipcMain.handle('displays:list', () => listDisplays())
 
   // El main guarda el último estado y lo reenvía a la proyección
   ipcMain.on('state:update', (_event, state: ProjectionState) => {
