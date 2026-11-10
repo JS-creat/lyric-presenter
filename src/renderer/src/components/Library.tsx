@@ -19,10 +19,7 @@ export function Library({ onNew, onImport }: Props): React.JSX.Element {
     <aside className="flex flex-col min-h-0 border-r border-zinc-800 bg-zinc-900/50">
       <div className="p-3 space-y-2 border-b border-zinc-800">
         <div className="relative">
-          <Search
-            size={16}
-            className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-500"
-          />
+          <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-500" />
           <input
             className="w-full pl-9 pr-3 py-2 rounded-lg bg-zinc-900 border border-zinc-800 text-sm placeholder:text-zinc-500 focus:outline-none focus:border-indigo-500"
             placeholder="Buscar canción..."

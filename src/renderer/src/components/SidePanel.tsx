@@ -14,7 +14,6 @@ import { Slide } from './Slide'
 import { ThemePanel } from './ThemePanel'
 import { usePresenter, buildProjection } from '../store'
 
-
 const btn =
   'flex items-center justify-center gap-2 py-2.5 rounded-lg text-sm font-medium transition-colors'
 
@@ -62,19 +61,21 @@ export function SidePanel(): React.JSX.Element {
         <div className="grid grid-cols-2 gap-2">
           <button
             onClick={s.toggleClear}
-            className={`${btn} border ${s.clear
-              ? 'bg-amber-500/20 text-amber-300 border-amber-500/40'
-              : 'bg-zinc-800 hover:bg-zinc-700 text-zinc-300 border-transparent'
-              }`}
+            className={`${btn} border ${
+              s.clear
+                ? 'bg-amber-500/20 text-amber-300 border-amber-500/40'
+                : 'bg-zinc-800 hover:bg-zinc-700 text-zinc-300 border-transparent'
+            }`}
           >
             <Eraser size={16} /> Limpiar <Kbd>Esc</Kbd>
           </button>
           <button
             onClick={s.toggleBlackout}
-            className={`${btn} border ${s.blackout
-              ? 'bg-red-500/20 text-red-300 border-red-500/40'
-              : 'bg-zinc-800 hover:bg-zinc-700 text-zinc-300 border-transparent'
-              }`}
+            className={`${btn} border ${
+              s.blackout
+                ? 'bg-red-500/20 text-red-300 border-red-500/40'
+                : 'bg-zinc-800 hover:bg-zinc-700 text-zinc-300 border-transparent'
+            }`}
           >
             <MonitorOff size={16} /> Blackout <Kbd>B</Kbd>
           </button>
@@ -138,8 +139,9 @@ export function SidePanel(): React.JSX.Element {
             <button
               key={value}
               onClick={() => s.setAlign(value)}
-              className={`flex-1 py-1.5 rounded-md flex justify-center transition-colors ${s.align === value ? 'bg-indigo-600 text-white' : 'text-zinc-400 hover:text-white'
-                }`}
+              className={`flex-1 py-1.5 rounded-md flex justify-center transition-colors ${
+                s.align === value ? 'bg-indigo-600 text-white' : 'text-zinc-400 hover:text-white'
+              }`}
             >
               <Icon size={16} />
             </button>

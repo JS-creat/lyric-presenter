@@ -2,6 +2,7 @@
 
 THIS IS A PERSONAL PROJECT INVOLVING THE USE OF LYRIC PROJECTIONS FOR VARIOUS EVENTS.
 STACK:
+
 - TS
 - TWCSS
 - JS
@@ -9,6 +10,7 @@ STACK:
 - ELECTRON JS
 - VITE
 - SQLite
+
 ## Recommended IDE Setup
 
 - [VSCode](https://code.visualstudio.com/) + [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) + [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)

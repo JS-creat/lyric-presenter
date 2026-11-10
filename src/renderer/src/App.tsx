@@ -94,10 +94,7 @@ function Control(): React.JSX.Element {
       </header>
 
       <div className="flex-1 min-h-0 grid grid-cols-[260px_1fr_340px]">
-        <Library
-          onNew={() => setEditor({ songId: null })}
-          onImport={() => setImportOpen(true)}
-        />
+        <Library onNew={() => setEditor({ songId: null })} onImport={() => setImportOpen(true)} />
         <StanzaList onEdit={(songId) => setEditor({ songId })} />
         <SidePanel />
       </div>

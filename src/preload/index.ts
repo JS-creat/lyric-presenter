@@ -25,7 +25,6 @@ const api = {
   displays: {
     list: (): Promise<DisplayInfo[]> => ipcRenderer.invoke('displays:list')
   }
-
 }
 
 if (process.contextIsolated) {

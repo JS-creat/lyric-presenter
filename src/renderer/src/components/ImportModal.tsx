@@ -94,7 +94,9 @@ export function ImportModal({ onClose }: { onClose: () => void }): React.JSX.Ele
             }`}
           >
             <FileUp size={28} className="text-zinc-400" />
-            <p className="text-sm text-zinc-300">Arrastra archivos .txt aquí o haz clic para elegir</p>
+            <p className="text-sm text-zinc-300">
+              Arrastra archivos .txt aquí o haz clic para elegir
+            </p>
           </div>
           <input
             ref={inputRef}
@@ -154,7 +156,10 @@ export function ImportModal({ onClose }: { onClose: () => void }): React.JSX.Ele
         </div>
 
         <footer className="px-5 py-4 border-t border-zinc-800 flex justify-end gap-2">
-          <button onClick={onClose} className="px-4 py-2 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-sm">
+          <button
+            onClick={onClose}
+            className="px-4 py-2 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-sm"
+          >
             Cancelar
           </button>
           <button

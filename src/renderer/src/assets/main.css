@@ -1,5 +1,5 @@
 @import './base.css';
-@import "tailwindcss";
+@import 'tailwindcss';
 
 html,
 body,
@@ -11,7 +11,11 @@ body,
 body {
   background: #09090b;
   color: #f4f4f5;
-  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  font-family:
+    'Segoe UI',
+    system-ui,
+    -apple-system,
+    sans-serif;
   overflow: hidden;
   user-select: none;
   -webkit-font-smoothing: antialiased;

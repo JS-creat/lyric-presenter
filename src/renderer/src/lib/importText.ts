@@ -14,5 +14,8 @@ export async function readTextFile(file: File): Promise<string> {
 }
 
 export function titleFromFileName(name: string): string {
-  return name.replace(/\.[^.]+$/, '').replace(/_+/g, ' ').trim()
+  return name
+    .replace(/\.[^.]+$/, '')
+    .replace(/_+/g, ' ')
+    .trim()
 }
