@@ -24,6 +24,11 @@ const api = {
   },
   displays: {
     list: (): Promise<DisplayInfo[]> => ipcRenderer.invoke('displays:list')
+  },
+  services: {
+    list: (): Promise<ServiceData[]> => ipcRenderer.invoke('services:list'),
+    save: (service: ServiceData): Promise<void> => ipcRenderer.invoke('services:save', service),
+    remove: (id: string): Promise<void> => ipcRenderer.invoke('services:delete', id)
   }
 }
 

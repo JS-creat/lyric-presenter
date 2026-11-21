@@ -3,7 +3,7 @@ import { Music2 } from 'lucide-react'
 import { Slide } from './components/Slide'
 import { SongEditor } from './components/SongEditor'
 import { ImportModal } from './components/ImportModal'
-import { Library } from './components/Library'
+import { LeftPanel } from './components/LeftPanel'
 import { StanzaList } from './components/StanzaList'
 import { SidePanel } from './components/SidePanel'
 import { Stanza } from './lib/songs'
@@ -46,6 +46,11 @@ function Control(): React.JSX.Element {
     usePresenter.getState().loadSongs()
   }, [])
 
+  useEffect(() => {
+    usePresenter.getState().loadSongs()
+    usePresenter.getState().loadServices()
+  }, [])
+
   // Sincroniza con la ventana de proyección cada vez que cambia el estado
   useEffect(() => {
     window.api.updateState(buildProjection(usePresenter.getState()))
@@ -70,7 +75,13 @@ function Control(): React.JSX.Element {
       if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return
       if (document.querySelector('[data-modal]')) return
       const st = usePresenter.getState()
-      if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') {
+      if (e.ctrlKey && e.key === 'ArrowRight') {
+        e.preventDefault()
+        st.stepService(1)
+      } else if (e.ctrlKey && e.key === 'ArrowLeft') {
+        e.preventDefault()
+        st.stepService(-1)
+      } else if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') {
         e.preventDefault()
         st.next()
       } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
@@ -94,7 +105,7 @@ function Control(): React.JSX.Element {
       </header>
 
       <div className="flex-1 min-h-0 grid grid-cols-[260px_1fr_340px]">
-        <Library onNew={() => setEditor({ songId: null })} onImport={() => setImportOpen(true)} />
+        <LeftPanel onNew={() => setEditor({ songId: null })} onImport={() => setImportOpen(true)} />
         <StanzaList onEdit={(songId) => setEditor({ songId })} />
         <SidePanel />
       </div>

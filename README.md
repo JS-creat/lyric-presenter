@@ -15,13 +15,13 @@ App de escritorio para proyectar letras de canciones en iglesias, eventos y kara
 
 ## Atajos de teclado
 
-| Tecla | Acción |
-|---|---|
-| `→` `↓` `Espacio` | Siguiente estrofa |
-| `←` `↑` | Estrofa anterior |
+| Tecla              | Acción                                    |
+| ------------------ | ----------------------------------------- |
+| `→` `↓` `Espacio`  | Siguiente estrofa                         |
+| `←` `↑`            | Estrofa anterior                          |
 | `Ctrl` + `→` / `←` | Siguiente o anterior canción del servicio |
-| `Esc` | Limpiar el texto (se ve solo el fondo) |
-| `B` | Blackout (pantalla negra) |
+| `Esc`              | Limpiar el texto (se ve solo el fondo)    |
+| `B`                | Blackout (pantalla negra)                 |
 
 ## Formato de los archivos `.txt`
 
@@ -55,14 +55,14 @@ npm run dev
 
 > Los avisos de `npm install` sobre dependencias y vulnerabilidades son normales. No ejecutes `npm audit fix --force`, porque rompe dependencias del proyecto.
 
-| Comando | Para qué sirve |
-|---|---|
-| `npm run dev` | Abre la app en modo desarrollo |
-| `npm run typecheck` | Revisa los tipos de TypeScript |
-| `npm run lint` | Revisa el estilo del código |
-| `npm run format` | Da formato al código |
-| `npm run build:unpack` | Genera la app en `dist\win-unpacked\` |
-| `npm run build:win` | Genera además el instalador de Windows |
+| Comando                | Para qué sirve                         |
+| ---------------------- | -------------------------------------- |
+| `npm run dev`          | Abre la app en modo desarrollo         |
+| `npm run typecheck`    | Revisa los tipos de TypeScript         |
+| `npm run lint`         | Revisa el estilo del código            |
+| `npm run format`       | Da formato al código                   |
+| `npm run build:unpack` | Genera la app en `dist\win-unpacked\`  |
+| `npm run build:win`    | Genera además el instalador de Windows |
 
 ## Estructura
 

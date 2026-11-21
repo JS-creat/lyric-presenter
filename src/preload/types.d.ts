@@ -51,24 +51,39 @@ declare global {
     updateState(state: ProjectionState): void
     getState(): Promise<ProjectionState | null>
     onState(cb: (state: ProjectionState) => void): () => void
+
     songs: {
       list(): Promise<SongData[]>
       create(song: SongData): Promise<void>
       update(song: SongData): Promise<void>
       remove(id: string): Promise<void>
     }
+
     backgrounds: {
       list(): Promise<string[]>
       add(): Promise<string[]>
       remove(name: string): Promise<void>
     }
+
     displays: {
       list(): Promise<DisplayInfo[]>
+    }
+
+    services: {
+      list(): Promise<ServiceData[]>
+      save(service: ServiceData): Promise<void>
+      remove(id: string): Promise<void>
     }
   }
 
   interface Window {
     electron: ElectronAPI
     api: Api
+  }
+
+  interface ServiceData {
+    id: string
+    name: string
+    songIds: string[]
   }
 }
